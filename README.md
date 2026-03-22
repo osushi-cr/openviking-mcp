@@ -22,7 +22,7 @@ L0/L1/L2の段階的ロードでトークンを大幅に節約します。
 # 1. 依存インストール
 pip install -r requirements.txt
 
-# 2. Claude Code settings.json に追加
+# 2. プロジェクトルートに .mcp.json を作成（または既存ファイルに追記）
 ```
 
 ```json
