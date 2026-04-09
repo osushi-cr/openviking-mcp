@@ -157,6 +157,16 @@ async def viking_overview(uri: str) -> str:
     """
     try:
         data = await _get("/content/overview", {"uri": uri})
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 500 and "not a directory" in e.response.text:
+            # ファイルURIの場合、親ディレクトリのoverviewにフォールバック
+            parent_uri = uri.rsplit("/", 1)[0]
+            try:
+                data = await _get("/content/overview", {"uri": parent_uri})
+            except Exception as e2:
+                return _format_error(e2)
+        else:
+            return _format_error(e)
     except Exception as e:
         return _format_error(e)
     return data.get("result", "")
